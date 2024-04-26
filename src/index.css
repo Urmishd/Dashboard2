@@ -1,0 +1,262 @@
+/* Login page css strat */
+.main-wrapper {
+  background-color: #f7f7f7;
+  height: 100vh;
+}
+
+.account-box {
+  /* width: 100%; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  line-height: 45px;
+
+}
+
+.account-wrapper {
+  background-color: white;
+  padding: 25px;
+
+
+}
+
+.form-control {
+  width: 450px;
+  padding: 12px;
+}
+
+.account-subtitle {
+  font-weight: 600;
+  color: #888888;
+  text-align: center;
+}
+
+.form-group {
+  font-weight: 600;
+}
+
+.loginbtn {
+  background: rgb(255, 155, 68);
+  background: linear-gradient(90deg, rgba(255, 155, 68, 1) 0%, rgba(189, 31, 31, 1) 100%);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  width: ;
+}
+
+.account-footer {
+  font-weight: 600;
+  text-decoration: none;
+}
+
+
+/*------------Sidebar css ----------- */
+.main {
+  padding-top: -10px;
+  line-height: 10px;
+}
+.submenu{
+  line-height: 25px;
+  list-style: none;
+}
+
+.sidebar {
+  color: white;
+  background-color: rgb(52, 68, 76);
+  ;
+}
+.sidebar-fix {
+  position: fixed;
+  left: 0;
+  height: 100%;
+ 
+  z-index: 1000; /* Make sure it's above other content */
+ 
+}
+.sublist{
+  text-decoration: none;
+  color: white;
+}
+.header p{
+   cursor: pointer;
+}
+
+
+/* --------- Header ------- */
+
+.main-container {
+  background: rgb(255, 155, 68);
+  background: linear-gradient(90deg, rgba(255, 155, 68, 1) 31%, rgba(189, 31, 31, 1) 134%);
+  /* margin-bottom: -8px; */
+  height: 60px;
+  color: white;
+  width: 100.80%;
+}
+.gap5{
+  gap: 105px;
+}
+.serchbar{
+  background: rgba( 255, 255, 255, 0.15 );
+  box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+  backdrop-filter: blur( 2.5px );
+  -webkit-backdrop-filter: blur( 2.5px );
+  border-radius: 50px;
+  border: 1px solid rgba( 255, 255, 255, 0.18 );
+  padding: 8px;
+  width: 220px;
+}
+.select-container {
+  display: inline-block;
+}
+
+.select-language {
+  padding: 8px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: none;
+  background-color: transparent;
+  color: white
+  ;
+}
+.notification-dot {
+  position: absolute;
+  top: -5px;
+  right: -12px;
+  width: 20px;
+  height: 20px;
+  background-color: rgb(138, 10, 242);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile{
+  border: 1px solid ;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+}
+.ml3{
+  padding-right: 10px;
+}
+
+/* -------------Router Admindashboard page start ---------- */
+
+.main-bg{
+  background-color: #f7f7f7;
+  width: 82.50%;
+  margin-left: 260px;
+  /* height: 100vh; */
+}
+.dash-widget-icon{
+  background-color: rgba(255, 155, 68, 0.2);
+  color: #ff9b44;
+  font-size: 30px;
+ height: 60px;
+ width: 60px;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+border-radius: 50%;
+}
+
+/* Statistics */
+/* Today Leave css */
+.progress{
+  height: 5px;
+  margin-top: 5px;
+}
+.stats-info{
+  border: 1px solid rgb(225, 222, 222);
+  border-radius: 5px;
+  padding: 15px;
+}
+
+/* Task Statistics */
+.progress1{
+  height: 15px;
+}
+.stats-box{
+  background-color: #f9f9f9;
+  border: 1px solid #e3e3e3;;
+}
+.avatar{
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+}
+.leave-info-box{
+  border: 1px solid rgb(198, 198, 198);
+  padding: 15px;
+  margin-top: 15px;
+}
+.text-dark{
+  border: 1px solid rgb(180, 177, 177);
+  /* width: fit-content; */
+  padding: 5px;
+  text-decoration: none;
+}
+
+/* Invoices Payments */
+
+.Client{
+  font-size: 12px;
+}
+.Payments-w{
+  width: max-content;
+  overflow-x: scroll;
+}
+.invoices-w{
+ 
+  overflow-x: scroll;
+}
+
+/* ---------------- Sticky Header----------------- */
+.sticky-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000; 
+}
+
+/* ------------Department css--------------------- */
+.text-end{
+  line-height: 40px;
+}
+
+/* ------------ setting css----------------------- */
+.setting{
+  height: 50px;
+  width: 50px;
+  background-color: #ff9b44;;
+  z-index: 1000;
+  position: fixed;
+  border-radius: 50%;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  right: 40px;
+  bottom: 30px;
+}
+
+::placeholder{
+  color: white;
+  opacity: 0.8;
+}
+
+/* --------------- Profile-menu----------------- */
+  .profile-menu{
+    list-style: none;
+  }
+  .main-pro-menu{
+    box-shadow: 0 4px 2px 0 rgba(0, 0, 0, 0.2), 0 6px 5px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 8px;
+    color: black;
+    position: absolute;
+    top: 55px;
+    width: 120px;
+  }
+
+  /* toggle sidebar css */
+ 
