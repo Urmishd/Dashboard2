@@ -3,8 +3,6 @@ import Revenue from "../other/Revenue";
 import Overview from "../other/Overview";
 import { FaRegCircleUser } from "react-icons/fa6";
 
-
-
 function AdminDashboard() {
   const [userName, setUserName] = useState('');
   useEffect(() => {
@@ -18,7 +16,7 @@ function AdminDashboard() {
     <>
       <section className="container">
         <h2 className=" pt-3">Welcome {userName}</h2>
-        <h6>Dashboard</h6>
+        <h6>Eployee Dashboard</h6>
         {/* Projects ,Projects ,Tasks ,Employees  */}
         <div className="row mt-4">
           <div className="col-md-6 col-sm-6 col-lg-6 col-xl-3">
@@ -645,7 +643,7 @@ function AdminDashboard() {
                 </div>
               </div>
               <div className="card-footer text-center">
-                <a href="#" className="text-decoration-none ">
+                <a href="#" zclassName="text-decoration-none ">
                   View all payments
                 </a>
               </div>

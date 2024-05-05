@@ -1,17 +1,42 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { Link } from "react-router-dom";
-import { Modal, Button, Form } from 'react-bootstrap'
+import { Modal, Button, Form } from "react-bootstrap";
 
 function Designations() {
   const [show, setShow] = useState(false);
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [designations, setDesignations] = useState([]);
+  const [selectedDesignations, setSelectedDesignations] = useState('');
 
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  
+
+  // save the data or add data table 
+
+  useEffect(() => {
+    // Fetch data from API
+    const fetchData = async () => {
+      const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhYmNAYWRzLmNvbSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiJTaGFpbGVzaCBQYXJtYXIiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJEaXJlY3RvciIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6ImFiY0BhZHMuY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZ2l2ZW5uYW1lIjoiU2hhaWxlc2ggUGFybWFyIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvc2lkIjoiMiIsIlVzZXJUeXBlIjoiU3VwZXIgQWRtaW4iLCJFbXBsb3llZUlkIjoiMiIsIkNvbXBhbnlJZCI6IjEiLCJyb2wiOiJhcGlfYWNjZXNzIiwibmJmIjoxNzE0NTYzNjcyLCJleHAiOjE3MTQ2NTAwNzIsImlzcyI6IkFEU19ERVNLX0FQSSIsImF1ZCI6IkFEU0NvZGUifQ.9uMXNeZlhdpPKVPJ4x8clvXnN0mLVmAUgRudkvsYej4"
+      try {
+        const response = await fetch('https://adsdeskapi.adscodegensolutions.com/api/v1/Department/DepartmentDrp', {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+        });
+        const data = await response.json();
+        setDesignations(data.items); // Assuming the API returns an array of departments
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData(); // Call the function to fetch data when component mounts
+  }, []); 
 
   return (
     <>
@@ -23,7 +48,7 @@ function Designations() {
               <ul className="breadcrumb">
                 <li className="breadcrumb-item">
                   <Link
-                    to="/"
+                    to="/admindashboard"
                     style={{ textDecoration: "none", color: "black" }}
                   >
                     Dashboard
@@ -39,14 +64,18 @@ function Designations() {
                 data-bs-toggle="modal"
                 data-bs-target="#add_department"
               >
-                <i className="fa fa-plus"></i> Add Designation
+                <i className="fa fa-plus"></i> Add
               </button>
             </div>
           </div>
         </div>
 
         {/* Model open start */}
-        <Modal show={show} onHide={handleClose}>
+         <Modal
+        show={show}
+        onHide={handleClose}
+        className="d-flex align-items-center"
+      >
         <Modal.Header closeButton>
           <Modal.Title className="text-center">Add Designation</Modal.Title>
         </Modal.Header>
@@ -54,22 +83,29 @@ function Designations() {
           <Form>
             <Form.Group controlId="formBasicUsername">
               <Form.Label>Designation Name *</Form.Label>
-              <Form.Control 
-              className="p-2"
-                type="text" 
+              <Form.Control
+                className="p-2"
+                type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
               />
             </Form.Group>
 
-            <Form.Group controlId="formBasicPassword">
-              <Form.Label>Department * </Form.Label>
-              <Form.Control  
-              className="p-2"
-                placeholder="Password" 
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
+            <Form.Group controlId="formBasicDepartment">
+              <Form.Label>Department *</Form.Label>
+              <Form.Control
+                as="select"
+                className="p-2"
+                value={selectedDesignations}
+                onChange={(e) => setselectedDesignations(e.target.value)}
+              >
+                <option value="">Select Department</option>
+                {designations.map((desg) => (
+                  <option key={desg.id} value={desg.id}>
+                    {desg.name}
+                  </option>
+                ))}
+              </Form.Control>
             </Form.Group>
           </Form>
         </Modal.Body>
@@ -77,10 +113,11 @@ function Designations() {
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
+          <Button variant="primary" >
+            Save
+          </Button>
         </Modal.Footer>
       </Modal>
-
-
 
         {/* table start */}
         <div className="row mt-5">
@@ -92,21 +129,18 @@ function Designations() {
                     <th style={{ width: "30px" }}>#</th>
                     <th>Designation</th>
                     <th>Department</th>
-                    <th className="text-end">Action</th>
+                    <th className="text-end"></th>
                   </tr>
                 </thead>
                 <tbody>
-                  {designationData.map((designation, index) => (
+                  {(departments, index) => (
                     <tr key={index}>
-                      <td>{index + 1}</td>
-                      <td>{designation.title}</td>
-                      <td>{designation.category}</td>
+                      <td></td>
+                      <td>{departments.id}</td>
+                      <td>{departments.name}</td>
                       <td className="text-end">
                         <div className="dropdown dropdown-action">
-
-
-                        <BsThreeDotsVertical className="fs-4" />
-
+                          <BsThreeDotsVertical className="fs-4" />
 
                           <div className="dropdown-menu dropdown-menu-right">
                             <a
@@ -129,7 +163,7 @@ function Designations() {
                         </div>
                       </td>
                     </tr>
-                  ))}
+                  )}
                 </tbody>
               </table>
             </div>
@@ -142,15 +176,3 @@ function Designations() {
 }
 
 export default Designations;
-const designationData = [
-  { id: 1, title: "Web Designer", category: "Web Development" },
-  { id: 2, title: "Web Developer", category: "Web Development" },
-  { id: 3, title: "Android Developer", category: "Application Development" },
-  { id: 4, title: "iOS Developer", category: "Application Development" },
-  { id: 5, title: "UI Designer", category: "Application Development" },
-  { id: 6, title: "UX Designer", category: "Application Development" },
-  { id: 7, title: "IT Technician", category: "Application Development" },
-  { id: 8, title: "Product Manager", category: "Application Development" },
-  { id: 9, title: "SEO Analyst", category: "Application Development" },
-  { id: 10, title: "Front End Designer", category: "Application Development" },
-];

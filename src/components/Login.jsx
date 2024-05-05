@@ -1,41 +1,84 @@
-import React, { useState } from "react";
-import Logo from "../img/logo2.png";
-import axios from "axios";
-import Sidebar from "./Sidebar";
+import React, { useState, useEffect } from "react";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-function Login() {
-    const [username, setUsername] = useState('kminchelle');
-    const [password, setPassword] = useState('0lelplR');
+import Sidebar from "./Sidebar";
+import Logo from "../img/logo2.png"
+
+function Login({login}) {
+    const [emailAddress, setEmailAddress] = useState('abc@ads.com');
+    const [password, setPassword] = useState('ads!@#4');
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [error, setError] = useState('');
+    const [userData, setUserData] = useState(null);
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            setIsLoggedIn(true);
+        }
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            // Assuming your API endpoint for login is '/login'
-            const response = await fetch('https://dummyjson.com/auth/login', {
+            const url = `https://adsdeskapi.adscodegensolutions.com/api/v1/Token`;
+            const response = await fetch(url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ username, password }),
+                body: JSON.stringify({
+                    emailAddress,
+                    password
+                }),
             });
             const data = await response.json();
             if (response.ok) {
-                setIsLoggedIn(true);
-                toast.success('Login successful!');
+                const token = data.access_Token;
+                const email = data.email
+                const fname = data.firstName;
+                const lname = data.lastName;
+                const name = data.name;
+                const profile = data.profilePic; 
+                const rame = data.roleName; 
+                const utype = data.userType; 
+                localStorage.setItem('enc_tkn', token);
+                localStorage.setItem('enc_email', email);
+                localStorage.setItem('enc_fname', fname);
+                localStorage.setItem('enc_lname', lname);
+                localStorage.setItem('enc_name', name);
+                localStorage.setItem('enc_prop', profile);
+                localStorage.setItem('enc_romane', rame);
+                localStorage.setItem('enc_utp', utype);
+                if (data.userType === "Super Admin") {
+                    setIsLoggedIn(true);
+                    
+                } else {
+                    setError("You don't have access to this dashboard.");
+                }
+               
             } else {
-                setError(data.message); // Assuming your API returns error messages
-                toast.error(data.message);
+                setError(data.message || 'Failed to login. Please check your credentials.');
+               
             }
         } catch (error) {
             setError('An error occurred. Please try again later.');
             toast.error('An error occurred. Please try again later.');
         }
+    }; 
+    const handleLogout = () => {
+        localStorage.removeItem('enc_tkn');
+        localStorage.removeItem('enc_email');
+        localStorage.removeItem('enc_fname');
+        localStorage.removeItem('enc_lname');
+        localStorage.removeItem('enc_name');
+        localStorage.removeItem('enc_prop');
+        localStorage.removeItem('enc_romane');
+        localStorage.removeItem('enc_utp');
+        setIsLoggedIn(false);
     };
-    
+
     return (
         <>
             <ToastContainer />
@@ -58,8 +101,8 @@ function Login() {
                                             <input
                                                 className="form-control"
                                                 type="text"
-                                                value={username}
-                                                onChange={(e) => setUsername(e.target.value)}
+                                                value={emailAddress}
+                                                onChange={(e) => setEmailAddress(e.target.value)}
                                             />
                                         </div>
                                         <div className="form-group">
@@ -104,7 +147,7 @@ function Login() {
                 </div>
             ) : (
                 <div>
-                    <Sidebar />
+                     <Sidebar onLogout={handleLogout} />
                 </div>
             )}
         </>

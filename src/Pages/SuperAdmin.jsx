@@ -3,10 +3,9 @@ import Revenue from "../other/Revenue";
 import Overview from "../other/Overview";
 import { FaRegCircleUser } from "react-icons/fa6";
 
-
-
 function AdminDashboard() {
   const [userName, setUserName] = useState('');
+
   useEffect(() => {
     // Retrieve user's name from local storage when component mounts
     const storedName = localStorage.getItem('enc_name');
@@ -14,11 +13,12 @@ function AdminDashboard() {
       setUserName(storedName);
     }
   }, []);
+  
   return (
     <>
       <section className="container">
         <h2 className=" pt-3">Welcome {userName}</h2>
-        <h6>Dashboard</h6>
+        <h6>Super Admin Dashboard</h6>
         {/* Projects ,Projects ,Tasks ,Employees  */}
         <div className="row mt-4">
           <div className="col-md-6 col-sm-6 col-lg-6 col-xl-3">
@@ -645,7 +645,7 @@ function AdminDashboard() {
                 </div>
               </div>
               <div className="card-footer text-center">
-                <a href="#" className="text-decoration-none ">
+                <a href="#" zclassName="text-decoration-none ">
                   View all payments
                 </a>
               </div>
