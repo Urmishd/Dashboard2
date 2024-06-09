@@ -42,7 +42,7 @@
   color: white;
   border: none;
   border-radius: 10px;
-  width: ;
+
 }
 
 .account-footer {
@@ -53,126 +53,245 @@
 
 /*------------Sidebar css ----------- */
 
-.submenu{
-  line-height: 20px;
-  list-style: none;
+
+.cursor-pointer {
+  cursor: pointer;
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .sidebar {
+  background-color: #34444c;
+  height: 100vh;
   color: white;
-  background-color: rgb(52, 68, 76);
-  height: 100%;
-}
-.sidebar-fix {
+  padding: 15px;
   position: fixed;
+  margin-top: 60px;
+  overflow-y: auto;
+  overflow: hidden;
+  transition: all 0.3s;
   left: 0;
-  height: 100%;
-  z-index: 1000; 
+  top: 0;
 
 }
-.sublist{
-  text-decoration: none;
-  color: white;
-}
-.sublist li{
- list-style: none;
-}
+
 .submenu {
-  /* max-height: 0;
-  overflow: hidden; */
-  transition: max-height 2s linear; /
+  padding-left: 15px;
+  line-height: 35px;
+  cursor: pointer;
+  max-height: 0;
+  overflow: hidden;
+  transition: all 0.5s ease;
+
 }
 
 .submenu.open {
-  max-height: 200px; 
+  max-height: 100px;
+
 }
+.sidebar a {
+color: white;
+text-decoration: none;
+
+}
+
+.sidebar.open {
+  width: 80px; 
+}
+.submenu.open {
+  display: block; /* Display the submenu when it's open */
+}
+.right-side-sidebar{
+  background-color: #f7f7f7;
+  margin-left: 260px;
+  width: 100wv;
+  height: 100vh;
+}
+
 
 
 
 
  /* toggle sidebar css */
- .sidebar-main {
+
+.sidebar {
+  height: 100vh;
+  overflow: hidden;
+  transition: all 0.3s;
   position: fixed;
+  left: 0;
   top: 0;
-  /* left: 200px; */
-  /* width: 900px; */
-  height: 100%;
-  /* background-color: #f1f1f1; */
-  transform: translateX(-100px);
-  transition: transform 0.3s ease-in-out;
 }
 
-.sidebar-main.open {
-  transform: translatex(0px);
+
+
+.sidebar ul li span {
+  display: flex;
+  align-items: center;
 }
 
-/* --------- Header ------- */
+.sidebar ul li span i {
+  margin-right: 10px;
 
-.main-container {
-  background: rgb(255, 155, 68);
-  background: linear-gradient(to right, #ff9b44 0%, #fc6075 100%);;
-  /* margin-bottom: -8px; */
-  height: 60px;
-  color: white;
-  width: 100.80%;
 }
-.gap5{
-  gap: 105px;
-}
-.serchbar{
-  background: rgba( 255, 255, 255, 0.15 );
-  box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-  backdrop-filter: blur( 2.5px );
-  -webkit-backdrop-filter: blur( 2.5px );
-  border-radius: 50px;
-  border: 1px solid rgba( 255, 255, 255, 0.18 );
-  padding: 8px;
-  width: 220px;
-  color: white;
-}
-.select-container {
+
+.sidebar ul li span .text {
   display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  transition: opacity 0.3s, width 0.3s;
 }
 
-.select-language {
-  padding: 8px;
-  font-size: 16px;
-  border-radius: 5px;
-  border: none;
-  background-color: transparent;
-  color: white
-  ;
+.sidebar.open {
+  width: 200px;
 }
+
+.sidebar:not(.open) {
+  width: 50px;
+}
+
+.sidebar:not(.open) .text {
+  opacity: 0;
+  width: 0;
+}
+
+.sidebar:not(.open) ul li span i {
+  margin-right: 0;
+  font-size: 20px;
+}
+
+.right-side-sidebar {
+  transition: margin-left 0.3s, width 0.3s;
+  margin-left: 210px;
+  width: calc(100% - 200px);
+}
+
+.right-side-sidebar.shrink {
+  margin-left: 50px;
+  width: calc(100% - 50px);
+}
+
+.right-side-sidebar.full {
+  margin-left:60px;
+  width: 96%;
+}
+
+
+
+
+
+/* --------- header css star  ------- */
+.company-name{
+  display: flex;
+  gap: 100px;
+  padding-left: 50px;
+}
+
+.sticky-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: linear-gradient(to right, #ff9b44 0%, #fc6075 100%);  
+  color: white
+} 
+
 .notification-dot {
   position: absolute;
   top: -5px;
-  right: -12px;
-  width: 20px;
-  height: 20px;
-  background-color: rgb(138, 10, 242);
+  right: -5px;
+  width: 15px;
+  height: 15px;
+  background-color: red;
+  color: white;
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 10px;
+}
+.search-bar:focus{
+  background: rgba( 255, 255, 255, 0.25 );
+box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+backdrop-filter: blur( 4px );
+-webkit-backdrop-filter: blur( 4px );
+border-radius: 10px;
+border: 1px solid rgba( 255, 255, 255, 0.18 );
+width: 250px;
+height: 40px;
 }
 
-.profile{
-  border: 1px solid ;
-  height: 40px;
+.search-bar{
+  background: rgba( 255, 255, 255, 0.25 );
+box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+backdrop-filter: blur( 4px );
+-webkit-backdrop-filter: blur( 4px );
+border-radius: 10px;
+border: 1px solid rgba( 255, 255, 255, 0.18 );
+width: 250px;
+height: 40px;
+
+}
+
+.notifyim {
+  position: absolute;
+  top: 30px;
+  right: 0;
+  width: 300px;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  z-index: 1000;
+}
+
+.commnofty {
+  top: 30px;
+}
+
+.avatarnofty {
   width: 40px;
+  height: 40px;
   border-radius: 50%;
 }
-.ml3{
-  padding-right: 10px;
+
+.main-pro-menu {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  z-index: 1000;
+  width: 200px;
 }
+
+.profile-menu span {
+  display: block;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.profile-menu span:hover {
+  background-color: #f1f1f1;
+}
+
+.hrline {
+  margin: 5px 0;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
 
 /* -------------Router Admindashboard page start ---------- */
 
 .main-bg{
   background-color: #f7f7f7;
-  width: 82.50%;
+  width: 100% ;
   margin-left: 260px;
-  /* height: 100vh; */
+  height: 100vh;
 }
 .dash-widget-icon{
   background-color: rgba(255, 155, 68, 0.2);
@@ -239,15 +358,61 @@ border-radius: 50%;
 
 /* ---------------- Sticky Header----------------- */
 .sticky-header {
-  position: sticky;
+  position: fixed;
   top: 0;
   z-index: 1000; 
+  width: 100%;
 }
 
 /* ------------Department css--------------------- */
 .text-end{
   line-height: 40px;
 }
+.status-badge.active {
+  background-color: #28a745; 
+  color: #fff; 
+  
+}
+.status-badge.deactive {
+  background-color: #dc3545; 
+  color: #fff; 
+
+}
+.status-badge{
+  border-radius: 10px;
+  padding: 3px;
+  font-size: 10px;
+}
+
+/* --------- serach department css --------------- */
+
+/* ------------ Department table css ----------------- */
+/* src/Pages/Department/DepartmentTable.css */
+
+.dropdown-menu {
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  position: absolute;
+  right: 10px;
+}
+
+.dropdown-item {
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+
+/* ------------- Designations css-------------------- */
+
+.content-main{
+  margin-top: 70px;
+}
+
 
 /* ------------ setting css----------------------- */
 .setting{
@@ -260,8 +425,9 @@ border-radius: 50%;
   display:flex;
   justify-content: center;
   align-items: center;
-  right: 40px;
+  right: 60px;
   bottom: 30px;
+  cursor: pointer;
 }
 
 ::placeholder{
@@ -351,8 +517,10 @@ border-radius: 50%;
   
 
 /* three dots in deparment  */
+
 .threedot{
   cursor: pointer;
+  padding-right: 10px;
  
 
 }
@@ -374,6 +542,7 @@ border-radius: 50%;
   border-radius: 5px;
   z-index: 1;
   padding: 2px;
+
 }
 
 .dropdown-dot a{
@@ -384,47 +553,128 @@ padding-left: 10px;
 }
 
 
-/* sidebar dropdwon  */
 
-.gap-arrow{
-  gap: 90px;
-  cursor: pointer;
 
-}
-.gap-arrow1{
-  gap: 115px;
-  cursor: pointer;
- 
-}
-#collapsibleContent{
- line-height: 30px;
- /* transition: all 1.2s linear; */
-}
 
-/* Define initial state of collapsible content */
-#collapsibleContent,
-#collapsibleContent2 {
-  max-height: 80px;
-  /* overflow: hidden; */
-  /* transition: max-height 0.6s linear; */
+/* admin dashboared mai margin  */
+.margintop{
+  margin-top: 60px;
 }
-
-/* Define styles for active (expanded) state */
-#collapsibleContent.in,
-#collapsibleContent2.in {
-  max-height: 1000px; /* Adjust as needed */
-}
-
-.collapseopne{
-  transition: all 0.7s ease-in-out;
-}
-
-/* notification bell */
 
   
+/* --------------all employee css-------------- */
 
+.filter-search{
+  padding: 13px;
+  border: 1px solid rgb(231, 222, 222);
+}
+/* action box css */
+.action-box {
+  position: absolute;
+  top: 0;
+  right: 50px;
+  z-index: 1000;
+  width: 150px;
+  background: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  /* padding: 5px 0; */
+  cursor: pointer;
+}
 
+.action-box a {
+  display: block;
+  padding-left: 6px;
+  text-decoration: none;
+  color: #333;
+  transition: background 0.3s;
+  text-align: start;
+}
 
+.action-box a:hover {
+  background: #f0f0f0;
+}
+.threedots{
+  text-align: -webkit-center
+}
+
+/* page notfound styel start */
+
+.page-not-found {
+  background-color: #f8f9fa;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.error-message {
+  text-align: center;
+  animation: fadeIn 1s ease-in-out;
+}
+
+.error-code {
+  font-size: 10rem;
+  font-weight: 700;
+  color: #dc3545;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  animation: bounceIn 1s ease-in-out;
+}
+
+.error-image img {
+  max-width: 100%;
+  height: auto;
+  animation: slideInRight 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes bounceIn {
+  0% {
+    transform: scale(0.1);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes slideInRight {
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+@keyframes zoomInOut {
+  0% {
+    transform: scale(0.8);
+  }
+  50% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0.8);
+  }
+}
+
+.error-code {
+  animation: zoomInOut 3s infinite; /* Apply animation to error-code class */
+}
 
 
 

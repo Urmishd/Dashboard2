@@ -1,120 +1,176 @@
-import React, { useEffect, useRef, useState } from "react";
-import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
-import AdminDashboard from "../Pages/AdminDashboard";
-import { AiOutlineDashboard } from "react-icons/ai";
-import { FaBell, FaCodeBranch, FaMoneyBill1 } from "react-icons/fa6";
-import Department from "../Pages/Department";
-import Designations from "../Pages/Designations";
+import React, { useState } from "react";
+import { FiChevronDown, FiChevronRight } from "react-icons/fi";
+import { Link, BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Header from "./Header";
-import Employee from "../Pages/Employee";
+import AdminDashboard from "../Pages/AdminDashboard";
 import SuperAdmin from "../Pages/SuperAdmin";
-import Login from "./Login";
-import { Collapse } from "react-bootstrap";
-import { BsChevronDown, BsChevronRight } from "react-icons/bs";
-import Setting from "../other/Setting"
+import Employee from "../Pages/Employee";
+import Department from "../Pages/Department/Department";
+import Designations from "../Pages/Designations/Designations";
+import Setting from "../other/Setting";
+import AllEmployee from "../Pages/Allemployee/AllEmployee ";
+import Project from "../Pages/Project";
+import PageNotFound from "../Pages/PageNotFound ";
+
 
 const Sidebar = ({ onLogout }) => {
-  // window.location.reload(true);
-  // State variables to manage open/closed state
-  // const [adminOpen, setAdminOpen] = useState(true);
-  const [masterOpen, setMasterOpen] = useState(false);
-  const [employeeOpen, setEmployeeOpen] = useState(false);
+  const [openSubMenu, setOpenSubMenu] = useState(null);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
 
-  // collaspan sidebar
-  const [open, setOpen] = useState(false);
-  const toggleCollapse = () => {
-    setOpen(!open);
-    if (!open) {
-      setMasterOpen(false);
-    }
-  };
-  const toggleCollapse2 = () => {
-    setMasterOpen(!masterOpen);
-    if (open) {
-      setOpen(false);
-    }
+  const toggleSubMenu = (submenu) => {
+    setOpenSubMenu(openSubMenu === submenu ? null : submenu);
   };
 
-  // tooglebar sidebar
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
 
   return (
-    <Router>
-      <Header onLogout={onLogout} />
-      <div className="d-flex">
-        {/* ------- Adminpage start ------- */}
-        {/* <div className={`col-4 sidebar-main ${isOpen ? 'open' : ''}`}> */}
-        <div className="col-2 sidebar-fix overflow-scroll">
-          <div className="sidebar p-2">
-            <div
-              className="header"
-              onClick={toggleCollapse}
-              aria-controls="collapsibleContent"
-              aria-expanded={open}
-            >
-              <p className="d-flex align-items-center gap-arrow">
-                <span>
-                  <AiOutlineDashboard className="fs-5" />
-                  &nbsp; Dashboard
+    <>
+      <Header onLogout={onLogout} toggleSidebar={toggleSidebar} />
+      <div className="row w-100">
+        <Router>
+          <div className={`sidebar ${sidebarOpen ? "open" : ""}`}>
+            <ul className="list-unstyled">
+              <li>
+                <span
+                  onClick={() => toggleSubMenu("dashboard")}
+                  className="cursor-pointer"
+                >
+                  <span>
+                    <i className="fa-solid fa-gauge"></i>
+                    <span className="text">&nbsp;&nbsp;Dashboard</span>
+                  </span>
+                  {openSubMenu === "dashboard" ? (
+                    <FiChevronDown />
+                  ) : (
+                    <FiChevronRight />
+                  )}
                 </span>
-                {open ? <BsChevronDown /> : <BsChevronRight />}
-              </p>
-            </div>
-
-            <Collapse in={open} className="collapseopne" timeout={600}>
-              <ul id="collapsibleContent">
-                <Link to="/superadmin" className="sublist">
-                  <li>Super Admin Dashboard</li>
-                </Link>
-                <Link to="/admindashboard" className="sublist">
-                  <li>Admin Dashboard</li>
-                </Link>
-                <Link to="/employee" className="sublist">
-                  <li>Employee Dashboard</li>
-                </Link>
-              </ul>
-            </Collapse>
-
-            <div
-              className="header"
-              onClick={toggleCollapse2}
-              aria-controls="collapsibleContent2"
-              aria-expanded={masterOpen}
-            >
-              <p className="d-flex align-items-center gap-arrow1">
-                <span>
-                  <FaCodeBranch className="fs-5" /> &nbsp; Master
+                <ul
+                  className={`submenu list-unstyled ${
+                    openSubMenu === "dashboard" ? "open" : ""
+                  }`}
+                >
+                  <li>
+                    <Link to="/">Super Admin Dashboard</Link>
+                  </li>
+                  <li>
+                    <Link to="/admin-dashboard">Admin Dashboard</Link>
+                  </li>
+                  <li>
+                    <Link to="/employee-dashboard">Employee Dashboard</Link>
+                  </li>
+                </ul>
+              </li>
+              <li className="mt-4">
+                <span
+                  onClick={() => toggleSubMenu("master")}
+                  className="cursor-pointer"
+                >
+                  <span>
+                    <i className="fa-solid fa-code-branch"></i>
+                    <span className="text">&nbsp;&nbsp;Master</span>
+                  </span>
+                  {openSubMenu === "master" ? (
+                    <FiChevronDown />
+                  ) : (
+                    <FiChevronRight />
+                  )}
                 </span>
-                {masterOpen ? <BsChevronDown /> : <BsChevronRight />}
-              </p>
-            </div>
-
-            <Collapse in={masterOpen} className="collapseopne" timeout={500}>
-              <ul id="collapsibleContent2">
-                <Link to="/department" className="sublist">
-                  <li>Department</li>
-                </Link>
-                <Link to="/designations" className="sublist">
-                  <li>Designation</li>
-                </Link>
-              </ul>
-            </Collapse>
+                <ul
+                  className={`submenu list-unstyled ${
+                    openSubMenu === "master" ? "open" : ""
+                  }`}
+                >
+                  <li>
+                    <Link to="/department">Department</Link>
+                  </li>
+                  <li>
+                    <Link to="/designations">Designation</Link>
+                  </li>
+                </ul>
+              </li>
+              <li className="mt-4">
+                <span
+                  onClick={() => toggleSubMenu("employee")}
+                  className="cursor-pointer"
+                >
+                  <span>
+                    <i className="fa-solid fa-user"></i>
+                    <span className="text">&nbsp;&nbsp;Employee</span>
+                  </span>
+                  {openSubMenu === "employee" ? (
+                    <FiChevronDown />
+                  ) : (
+                    <FiChevronRight />
+                  )}
+                </span>
+                <ul
+                  className={`submenu list-unstyled ${
+                    openSubMenu === "employee" ? "open" : ""
+                  }`}
+                >
+                  <li>
+                    <Link to="/all-employees">All Employees</Link>
+                  </li>
+                  <li>
+                    <Link to="/leave">Leave</Link>
+                  </li>
+                  <li>
+                    <Link to="/game">Game</Link>
+                  </li>
+                </ul>
+              </li>
+              <li className="mt-4">
+                <span
+                  onClick={() => toggleSubMenu("project")}
+                  className="cursor-pointer"
+                >
+                  <span>
+                    <i className="fa-solid fa-rocket"></i>
+                    <span className="text">&nbsp;&nbsp;Projects</span>
+                  </span>
+                  {openSubMenu === "project" ? (
+                    <FiChevronDown />
+                  ) : (
+                    <FiChevronRight />
+                  )}
+                </span>
+                <ul
+                  className={`submenu list-unstyled ${
+                    openSubMenu === "project" ? "open" : ""
+                  }`}
+                >
+                  <li>
+                    <Link to="/project">Project</Link>
+                  </li>
+                  <li>
+                    <Link to="/task">Tasks</Link>
+                  </li>
+                  <li>
+                    <Link to="/taskboard">Task Board</Link>
+                  </li>
+                </ul>
+              </li>
+            </ul>
           </div>
-        </div>
-
-        <Setting />
-        {/* </div> */}
-        {/* ------- Router start to collas */}
-        <div className="col-12 main-bg">
-          <Routes>
-            <Route path="/superadmin" element={<SuperAdmin />}></Route>
-            <Route path="/employee" element={<Employee />}></Route>
-            <Route path="/admindashboard" element={<AdminDashboard />}></Route>
-            <Route path="/department" element={<Department />}></Route>
-            <Route path="/designations" element={<Designations />}></Route>
-          </Routes>
-        </div>
+          <div className={`right-side-sidebar ${sidebarOpen ? "" : "full"}`}>
+            <Routes>
+              <Route path="/" element={<SuperAdmin />} />
+              <Route path="/admin-dashboard" element={<AdminDashboard />} />
+              <Route path="/employee-dashboard" element={<Employee />} />
+              <Route path="/department" element={<Department />} />
+              <Route path="/designations" element={<Designations />} />
+              <Route path="/all-employees" element={<AllEmployee />} />
+              <Route path="/project" element={<Project />} />
+              <Route path="*" element={<PageNotFound />} />
+            </Routes>
+          </div>
+        </Router>
       </div>
-    </Router>
+      <Setting />
+    </>
   );
 };
 
