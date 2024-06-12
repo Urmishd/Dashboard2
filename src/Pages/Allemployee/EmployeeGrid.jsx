@@ -1,18 +1,41 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Avatar from 'react-avatar';
 import { BsThreeDotsVertical } from 'react-icons/bs';
+import EmployeeActions from './EmployeeActions'; // Adjust the import path as needed
 
-function EmployeeGrid({ employees, gridAlert }) {
+function EmployeeGrid({ employees, handleEdit, handleDelete, handleActivateDeactivate }) {
+  const [actionBoxOpen, setActionBoxOpen] = useState(null);
+  const actionBoxRef = useRef(null);
+
+  const handleDropdownToggle = (employeeId) => {
+    if (actionBoxOpen === employeeId) {
+      setActionBoxOpen(null);
+    } else {
+      setActionBoxOpen(employeeId);
+    }
+  };
+
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (actionBoxRef.current && !actionBoxRef.current.contains(event.target)) {
+        setActionBoxOpen(null);
+      }
+    };
+
+    document.addEventListener('click', handleOutsideClick);
+
+    return () => {
+      document.removeEventListener('click', handleOutsideClick);
+    };
+  }, []);
+
   return (
     <div className="col-12 mt-4">
       <div className="row">
         {employees.length > 0 ? (
           employees.map((employee) => (
-            <div
-              className="col-md-4 col-sm-6 col-12 col-lg-4 col-xl-3"
-              key={employee.id}
-            >
-              <div className="card text-center mt-3">
+            <div className="col-md-4 col-sm-6 col-12 col-lg-4 col-xl-3" key={employee.id}>
+              <div className="card text-center mt-3" ref={actionBoxRef}>
                 <div className="card-body">
                   <div className="profile-img mb-3">
                     <Avatar name={employee.name} size="100" round={true} />
@@ -24,13 +47,22 @@ function EmployeeGrid({ employees, gridAlert }) {
                       <i className="fa-solid fa-id-badge"></i>
                       <span>{employee.employeeID}</span>
                     </div>
-                    <div className="dropdown profile-action">
+                    <div className="dropdown profile-action position-relative">
                       <span
                         className="cursor-pointer"
-                        onClick={() => gridAlert()}
+                        onClick={() => handleDropdownToggle(employee.id)}
                       >
                         <BsThreeDotsVertical className="fs-4" />
                       </span>
+                      {actionBoxOpen === employee.id && (
+                        <EmployeeActions
+                          employeeId={employee.id}
+                          isActive={employee.isActive}
+                          handleEdit={handleEdit}
+                          handleDelete={handleDelete}
+                          handleActivateDeactivate={handleActivateDeactivate}
+                        />
+                      )}
                     </div>
                   </div>
                 </div>

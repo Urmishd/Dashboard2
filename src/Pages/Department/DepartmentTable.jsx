@@ -80,7 +80,7 @@ const DepartmentTable = ({
               </td>
               <td  style={{ textAlign: "end" }}>
                 <div className="dropdown " >
-                  <span
+                  <span 
                     className="fs-4"
                     type="button"
                     id={`dropdownMenuButton${department.id}`}

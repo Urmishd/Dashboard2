@@ -1,5 +1,4 @@
-// AllEmployee.jsx
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import EmployeeModal from './EmployeeModal';
 import EmployeeList from './EmployeeList';
 import EmployeeGrid from './EmployeeGrid';
@@ -34,13 +33,12 @@ function AllEmployee() {
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'ascending' });
   const [actionBoxOpen, setActionBoxOpen] = useState(null);
 
-  // Load employees from localStorage on initial render
   useEffect(() => {
     const storedEmployees = JSON.parse(localStorage.getItem('employees')) || [];
     setEmployees(storedEmployees);
   }, []);
 
-  const handleViewChange = () => setView((prevView) => (prevView === 'list' ? 'grid' : 'list'));
+  const handleViewChange = (viewType) => setView(viewType);
   const handleModalOpen = () => setShowModal(true);
   const handleModalClose = () => setShowModal(false);
 
@@ -49,12 +47,10 @@ function AllEmployee() {
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
   };
 
-  // Function to create or update employee data
   const handleSubmit = (e) => {
     e.preventDefault();
     let updatedEmployees;
     if (selectedEmployee) {
-      // Update existing employee
       updatedEmployees = employees.map((emp) =>
         emp.id === selectedEmployee.id
           ? {
@@ -69,7 +65,6 @@ function AllEmployee() {
           : emp
       );
     } else {
-      // Create new employee
       const newEmployee = {
         id: employees.length + 1,
         name: formData.firstName + ' ' + formData.lastName,
@@ -107,7 +102,8 @@ function AllEmployee() {
     setSelectedEmployee(null);
   };
 
-  const handleEdit = (employee) => {
+  const handleEdit = (employeeId) => {
+    const employee = employees.find((emp) => emp.id === employeeId);
     setSelectedEmployee(employee);
     setFormData({
       firstName: employee.name.split(' ')[0],
@@ -134,15 +130,16 @@ function AllEmployee() {
     XLSX.writeFile(workbook, 'employees.xlsx');
   };
 
-  const handleActionBox = (employee) => {
-    setActionBoxOpen(employee.id);
+  const handleActionBox = (employeeId) => {
+    setActionBoxOpen(employeeId);
   };
 
   const handleCloseActionBox = () => {
     setActionBoxOpen(null);
   };
 
-  const handleDelete = (employee) => {
+  const handleDelete = (employeeId) => {
+    const employee = employees.find((emp) => emp.id === employeeId);
     Swal.fire({
       title: `Are you sure you want to delete ${employee.name}?`,
       icon: 'warning',
@@ -152,33 +149,14 @@ function AllEmployee() {
       confirmButtonText: 'Yes, delete it!',
     }).then((result) => {
       if (result.isConfirmed) {
-        const updatedEmployees = employees.filter((emp) => emp.id !== employee.id);
+        const updatedEmployees = employees.filter((emp) => emp.id !== employeeId);
         setEmployees(updatedEmployees);
         localStorage.setItem('employees', JSON.stringify(updatedEmployees));
-        Swal.fire('Deleted!', `${employee.name} has been deleted.`, 'success');
         handleCloseActionBox();
+        Swal.fire('Deleted!', `${employee.name} has been deleted.`, 'success');
       }
     });
   };
-
-  const gridAlert = () => {
-    alert('Change to list mode to perform actions.');
-  };
-
-  const actionBoxRef = useRef(null);
-  useEffect(() => {
-    const handleOutsideClick = (event) => {
-      if (actionBoxRef.current && !actionBoxRef.current.contains(event.target)) {
-        handleCloseActionBox();
-      }
-    };
-
-    document.addEventListener('click', handleOutsideClick);
-
-    return () => {
-      document.removeEventListener('click', handleOutsideClick);
-    };
-  }, []);
 
   const filterEmployees = () => {
     return employees.filter((employee) => {
@@ -238,6 +216,14 @@ function AllEmployee() {
     setFormData((prevFormData) => ({ ...prevFormData, employeeId: newEmployeeId }));
   }, []);
 
+  const handleActivateDeactivate = (employeeId, isActive) => {
+    const updatedEmployees = employees.map((employee) =>
+      employee.id === employeeId ? { ...employee, isActive: isActive } : employee
+    );
+    setEmployees(updatedEmployees);
+    localStorage.setItem('employees', JSON.stringify(updatedEmployees));
+  };
+
   return (
     <div style={{ marginTop: '80px' }}>
       <div className="page-header">
@@ -258,10 +244,16 @@ function AllEmployee() {
               <span className="btn border border-1 bg-white fs-5" onClick={handleDownloadExcel}>
                 <i className="fa-solid fa-file-export"></i>
               </span>
-              <span className="btn border border-1 bg-white fs-5" onClick={handleViewChange}>
+              <span
+                className={`btn border border-1 bg-white fs-5 ${view === 'grid' ? 'active' : ''}`}
+                onClick={() => handleViewChange('grid')}
+              >
                 <i className="fa fa-th"></i>
               </span>
-              <span className="btn border bg-white border-1 fs-5" onClick={handleViewChange}>
+              <span
+                className={`btn border bg-white border-1 fs-5 ${view === 'list' ? 'active' : ''}`}
+                onClick={() => handleViewChange('list')}
+              >
                 <i className="fa fa-bars"></i>
               </span>
             </div>
@@ -288,7 +280,6 @@ function AllEmployee() {
         handleChange={handleChange}
         formData={formData}
         selectedEmployee={selectedEmployee}
-        handleEdit={handleEdit}
       />
 
       <div className="row">
@@ -303,10 +294,15 @@ function AllEmployee() {
             requestSort={requestSort}
             sortConfig={sortConfig}
             getSortIcon={getSortIcon}
-            actionBoxRef={actionBoxRef}
+            handleActivateDeactivate={handleActivateDeactivate}
           />
         ) : (
-          <EmployeeGrid employees={filteredEmployees} gridAlert={gridAlert} />
+          <EmployeeGrid
+            employees={filteredEmployees}
+            handleEdit={handleEdit}
+            handleDelete={handleDelete}
+            handleActivateDeactivate={handleActivateDeactivate}
+          />
         )}
       </div>
     </div>

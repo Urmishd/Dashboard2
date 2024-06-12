@@ -1,19 +1,28 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import Avatar from 'react-avatar';
-import { BsThreeDotsVertical, BsArrowUp, BsArrowDown } from 'react-icons/bs';
+import EmployeeActions from './EmployeeActions'; // Adjust import path if needed
 
 function EmployeeList({
   employees,
-  handleActionBox,
-  actionBoxOpen,
-  handleCloseActionBox,
   handleEdit,
   handleDelete,
+  handleActivateDeactivate,
   requestSort,
   sortConfig,
   getSortIcon,
+  actionBoxOpen,
+  handleActionBox,
+  handleCloseActionBox,
   actionBoxRef,
 }) {
+  const handleDropdownToggle = (employeeId) => {
+    if (actionBoxOpen === employeeId) {
+      handleCloseActionBox();
+    } else {
+      handleActionBox(employeeId);
+    }
+  };
+
   return (
     <div className="col-12 mt-4" ref={actionBoxRef}>
       <div className="table-responsive">
@@ -56,25 +65,29 @@ function EmployeeList({
                   <td>{employee.mobile}</td>
                   <td>{employee.joinDate}</td>
                   <td>{employee.role}</td>
-                  <td className="text-end position-relative">
-                    <div className="threedots">
-                      <BsThreeDotsVertical
-                        className="fs-5 cursor-pointer"
-                        onClick={() => handleActionBox(employee)}
-                      />
+                  <td className="text-end">
+                    <div className="dropdown action-dropdown position-relative">
+                      <span
+                        className="fs-4"
+                        type="button"
+                        id={`dropdownMenuButton${employee.id}`}
+                        onClick={() => handleDropdownToggle(employee.id)}
+                        aria-expanded={actionBoxOpen === employee.id ? "true" : "false"}
+                      >
+                        <div className="threedot">
+                          <i className="fas fa-ellipsis-v"></i>
+                        </div>
+                      </span>
+                      {actionBoxOpen === employee.id && (
+                        <EmployeeActions
+                          employeeId={employee.id}
+                          isActive={employee.isActive}
+                          handleEdit={handleEdit}
+                          handleDelete={handleDelete}
+                          handleActivateDeactivate={handleActivateDeactivate}
+                        />
+                      )}
                     </div>
-                    {actionBoxOpen === employee.id && (
-                      <div className="action-box">
-                        <a onClick={() => handleEdit(employee)}>
-                          <i className="fa fa-pencil m-r-5"></i>
-                          &nbsp;&nbsp; Edit
-                        </a>
-                        <a onClick={() => handleDelete(employee)}>
-                          <i className="fa fa-trash m-r-5"></i>
-                          &nbsp;&nbsp; Delete
-                        </a>
-                      </div>
-                    )}
                   </td>
                 </tr>
               ))
